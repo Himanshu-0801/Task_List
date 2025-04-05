@@ -1,5 +1,4 @@
-# app/models/task.py
-from app import db
+from app.extensions import db
 from datetime import datetime
 
 class Task(db.Model):
@@ -8,14 +7,20 @@ class Task(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(120), nullable=False)
     description = db.Column(db.Text, nullable=True)
-    is_completed = db.Column(db.Boolean, default=False)
+    status = db.Column(db.String(20), default='pending')  # pending, in-progress, completed
+    due_date = db.Column(db.DateTime, nullable=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
 
     def to_dict(self):
         return {
             "id": self.id,
             "title": self.title,
             "description": self.description,
-            "is_completed": self.is_completed,
-            "created_at": self.created_at.isoformat()
+            "status": self.status,
+            "due_date": self.due_date.isoformat() if self.due_date else None,
+            "created_at": self.created_at.isoformat(),
+            "updated_at": self.updated_at.isoformat(),
+            "user_id": self.user_id
         }
