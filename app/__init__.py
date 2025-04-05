@@ -21,11 +21,11 @@ def create_app():
     migrate.init_app(app, db)
     jwt.init_app(app)
 
-    # ✅ Ensure Both Blueprints Are Imported & Registered
+    # ✅ Register blueprints correctly
     from app.api.routes import api_bp
-    from app.routes import main_bp  # Ensure the blueprint is properly imported
+    from app.routes import main_bp
 
     app.register_blueprint(api_bp, url_prefix='/api')
-    app.register_blueprint(main_bp)  # Register the default `/` route
+    app.register_blueprint(main_bp)
 
     return app
