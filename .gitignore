@@ -1,0 +1,51 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg-info/
+.Python
+env/
+venv/
+.env
+
+# Virtualenv and pip
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Docker
+*.log
+docker-compose.override.yml
+**/postgres_data/
+**/redis_data/
+
+# VSCode / PyCharm IDEs
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Pytest cache
+.pytest_cache/
+
+# Migrations (optional — only if you don’t want to track them yet)
+# migrations/
+
+# Celery related
+celerybeat-schedule
+*.pid
+
+# Secrets
+*.env
+.env.*
+
+# Compiled files and coverage
+htmlcov/
+.coverage
+.tox/
+nosetests.xml
+coverage.xml
+.cache
