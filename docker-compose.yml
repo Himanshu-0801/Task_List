@@ -4,29 +4,50 @@ services:
   web:
     build: .
     container_name: task_project_web
-    command: flask run --host=0.0.0.0 --port=5000
-    volumes:
-      - .:/app
+    command: flask run --host=0.0.0.0
+    working_dir: /app
+    environment:
+      FLASK_APP: run.py
+      FLASK_ENV: development
+      CELERY_BROKER_URL: redis://redis:6379/0
+      CELERY_RESULT_BACKEND: redis://redis:6379/0
+      DATABASE_URL: postgresql://youruser:yourpassword@db:5432/yourdb
     ports:
       - "5000:5000"
-    environment:
-      - FLASK_APP=app
-      - FLASK_ENV=development
-      - DATABASE_URL=postgresql://task_user:task_pass@db:5432/task_db
+    volumes:
+      - .:/app
     depends_on:
       - db
+      - redis
+
+  celery:
+    build: .
+    container_name: task_project_celery
+    command: celery -A app.celery_worker.celery worker --loglevel=info
+    working_dir: /app
+    environment:
+      CELERY_BROKER_URL: redis://redis:6379/0
+      CELERY_RESULT_BACKEND: redis://redis:6379/0
+      DATABASE_URL: postgresql://youruser:yourpassword@db:5432/yourdb
+    volumes:
+      - .:/app
+    depends_on:
+      - web
+      - redis
+      - db
+
+  redis:
+    image: redis:alpine
+    container_name: task_project_redis
+    ports:
+      - "6379:6379"
 
   db:
     image: postgres:15
     container_name: task_project_db
+    environment:
+      POSTGRES_USER: youruser
+      POSTGRES_PASSWORD: yourpassword
+      POSTGRES_DB: yourdb
     ports:
       - "5432:5432"
-    environment:
-      POSTGRES_DB: task_db
-      POSTGRES_USER: task_user
-      POSTGRES_PASSWORD: task_pass
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-
-volumes:
-  postgres_data:

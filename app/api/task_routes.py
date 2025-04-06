@@ -6,6 +6,10 @@ from app.models.task import Task
 from app.extensions import db
 from datetime import datetime
 from app.services.csv_loader import load_tasks_from_csv
+from app.services.csv_loader import process_csv_async
+
+
+
 
 
 task_bp = Blueprint('tasks', __name__)
@@ -58,7 +62,7 @@ def upload_csv():
     user_id = get_jwt_identity()
 
     try:
-        tasks = load_csv_to_tasks(file, user_id)
+        tasks = process_csv_async(file, user_id)
         return jsonify({
             "message": f"{len(tasks)} tasks uploaded successfully.",
             "tasks": [task.to_dict() for task in tasks]
