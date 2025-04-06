@@ -3,6 +3,7 @@ from app.models.user import User
 from app.extensions import db
 from flask_jwt_extended import create_access_token
 from werkzeug.security import generate_password_hash
+from datetime import timedelta
 
 auth_bp = Blueprint('auth', __name__)
 
@@ -15,12 +16,20 @@ def register():
         if not data.get(field):
             return jsonify({"error": f"'{field}' is required and cannot be empty"}), 400
 
-    username = data['username']
-    email = data['email']
-    password = generate_password_hash(data['password'])
-    role = data['role']
+    if User.query.filter_by(email=data['email']).first():
+        return jsonify({"error": "Email already exists"}), 400
 
-    user = User(username=username, email=email, password_hash=password, role=role)
+    if User.query.filter_by(username=data['username']).first():
+        return jsonify({"error": "Username already exists"}), 400
+
+    hashed_password = generate_password_hash(data['password'])
+
+    user = User(
+        username=data['username'],
+        email=data['email'],
+        password_hash=hashed_password,
+        role=data['role']
+    )
 
     db.session.add(user)
     db.session.commit()
@@ -42,5 +51,15 @@ def login():
     if not user or not user.check_password(password):
         return jsonify({'error': 'Invalid email or password'}), 401
 
-    access_token = create_access_token(identity=user.id)
-    return jsonify({'access_token': access_token}), 200
+    # Optional: Token expiry time
+    access_token = create_access_token(identity=user.id, expires_delta=timedelta(hours=1))
+
+    return jsonify({
+        'access_token': access_token,
+        'user': {
+            'id': user.id,
+            'username': user.username,
+            'email': user.email,
+            'role': user.role
+        }
+    }), 200
