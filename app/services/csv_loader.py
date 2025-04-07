@@ -2,7 +2,7 @@ import csv
 from io import TextIOWrapper
 from flask_jwt_extended import get_jwt_identity
 
-from app.tasks.csv_tasks import process_csv_async  # ✅ Celery task
+from app.services.csv_tasks import process_csv_async  # ✅ corrected import path
 
 def load_tasks_from_csv(file_storage):
     decoded_file = TextIOWrapper(file_storage.stream, encoding='utf-8')
@@ -26,6 +26,6 @@ def load_tasks_from_csv(file_storage):
         })
 
     if tasks_data:
-        process_csv_async.delay(tasks_data, user_id)  # ✅ Background task via Celery
+        process_csv_async.delay(tasks_data, user_id)  # ✅ Celery task call
 
-    return tasks_data  # Optional: just to show parsed data in response
+    return tasks_data

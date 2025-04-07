@@ -10,8 +10,6 @@ from app.services.csv_loader import process_csv_async
 
 
 
-
-
 task_bp = Blueprint('tasks', __name__)
 
 
@@ -48,6 +46,7 @@ def create_task():
     except Exception as e:
         return jsonify({'error': f"Failed to create task: {str(e)}"}), 400
 
+  # ensure this function is correct
 
 @task_bp.route('/upload-csv', methods=['POST'])
 @jwt_required()
@@ -56,16 +55,18 @@ def upload_csv():
         return jsonify({"error": "CSV file is required"}), 400
 
     file = request.files['file']
-    if not file or not file.filename.endswith('.csv'):
+
+    if not file or file.filename == '':
+        return jsonify({"error": "No file selected"}), 400
+
+    if not file.filename.endswith('.csv'):
         return jsonify({"error": "Only .csv files are allowed"}), 400
 
-    user_id = get_jwt_identity()
-
     try:
-        tasks = process_csv_async(file, user_id)
+        tasks = load_tasks_from_csv(file)  #  FIXED: call the CSV loader, not the Celery task directly
         return jsonify({
             "message": f"{len(tasks)} tasks uploaded successfully.",
-            "tasks": [task.to_dict() for task in tasks]
+            "tasks": tasks
         }), 201
     except Exception as e:
         return jsonify({"error": f"Failed to process CSV: {str(e)}"}), 500
