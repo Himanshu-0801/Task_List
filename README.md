@@ -97,7 +97,7 @@ Make sure to keep screenshots in a `screenshots/` folder for easy reference in d
 ![Register Screenshot](task_project/Screenshots/Register_SS.png)
 
 ### 🔑 Login
-![Login Screenshot](task_project/Screenshots/auth_login_SS.png)
+![task_project/Screenshots/auth_login_SS.png]
 
 ### 🧾 CSV Upload
 ![CSV Upload Screenshot](task_project/Screenshots/csv_upload_SS.png)
