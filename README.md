@@ -102,7 +102,7 @@ Make sure to keep screenshots in a `screenshots/` folder for easy reference in d
 ![CSV Upload Screenshot](task_project/Screenshots/csv_upload_SS.png)
 
 ### 📋 Task Listing
-![Task Listing Screenshot](/home/sonu/Desktop/Screenshots/api-task_SS.png)
+![Task Listing Screenshot](Screenshots/api-task_SS.png)
 
 ---
 
