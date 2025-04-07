@@ -14,31 +14,30 @@ It’s built using Flask, PostgreSQL, Redis, Celery, and JWT. The structure is c
 - **Alembic** – For database migrations
 
 ## 📁 Folder Structure
-
+```bash
 task_project/
-│
 ├── app/
 │   ├── api/
-│   │   ├── auth_routes.py         # /register and /login endpoints
-│   │   └── task_routes.py         # /tasks endpoints + CSV upload
+│   │   ├── auth_routes.py       # /register and /login endpoints
+│   │   └── task_routes.py       # /tasks endpoints + CSV upload
 │   ├── models/
-│   │   ├── user.py                # User model with roles and hashing
-│   │   └── task.py                # Task + TaskLogger models
+│   │   ├── user.py              # User model with roles and password hashing
+│   │   └── task.py              # Task + TaskLogger models with soft delete
 │   ├── services/
-│   │   └── csv_loader.py          # CSV parsing logic
+│   │   └── csv_loader.py        # CSV parsing and async loader
 │   ├── tasks/
-│   │   └── __init__.py            # Celery task definitions
-│   ├── extensions.py              # DB, Redis, Celery, JWT init
-│   ├── __init__.py                # App factory
-│   └── config.py                  # Dev/prod environment configs
-│
-├── migrations/                    # Alembic version history
-├── Dockerfile                     # Flask app Dockerfile
-├── docker-compose.yml             # Compose for Flask, Redis, Postgres
-├── requirements.txt               # Python dependencies
-└── run.py                         # Main app entry point
+│   │   └── __init__.py          # Celery background task definitions
+│   ├── extensions.py            # DB, Redis, Celery, JWT initialization
+│   ├── __init__.py              # App factory setup
+│   └── config.py                # Dev/prod environment configurations
+├── migrations/                  # Alembic migration scripts
+├── screenshots/                 # API screenshots (for docs)
+├── Dockerfile                   # Dockerfile for Flask app
+├── docker-compose.yml           # Multi-container setup (Flask, Redis, Postgres)
+├── requirements.txt             # Python dependencies
+└── run.py                       # Main app entry point
 
-
+```
 
 ## 🔧 Running the Project
 
@@ -103,7 +102,7 @@ Make sure to keep screenshots in a `screenshots/` folder for easy reference in d
 ![CSV Upload Screenshot](task_project/Screenshots/csv_upload_SS.png)
 
 ### 📋 Task Listing
-![Task Listing Screenshot](task_project/Screenshots/api-task_SS.png)
+![Task Listing Screenshot](/home/sonu/Desktop/Screenshots/api-task_SS.png)
 
 ---
 
