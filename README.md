@@ -93,13 +93,13 @@ Content-Type: application/json
 Make sure to keep screenshots in a `screenshots/` folder for easy reference in docs.
 
 ### 🔐 Register
-![Register Screenshot](task_project/Screenshots/Register_SS.png)
+![Register Screenshot](Screenshots/Register_SS.png)
 
 ### 🔑 Login
-![Login Screenshot](task_project/Screenshots/auth_login_SS.png)
+![Login Screenshot](Screenshots/auth_login_SS.png)
 
 ### 🧾 CSV Upload
-![CSV Upload Screenshot](task_project/Screenshots/csv_upload_SS.png)
+![CSV Upload Screenshot](Screenshots/csv_upload_SS.png)
 
 ### 📋 Task Listing
 ![Task Listing Screenshot](Screenshots/api-task_SS.png)
